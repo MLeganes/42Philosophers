@@ -15,4 +15,7 @@ You will see how to create threads and you will discover mutexes.
 
 # Links
 
-* [links](https://wwww.links/)
+* [YouTube](https://www.youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2)
+* [github](https://github.com/Leo-tumo/philosophers)
+* [link](https://medium.com/swlh/the-dining-philosophers-problem-solution-in-c-90e2593f64e8)
+* [link](http://web.eecs.utk.edu/~mbeck/classes/cs560/560/notes/Dphil/lecture.html)
