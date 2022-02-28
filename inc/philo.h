@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/02/25 12:32:02 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:15:51 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,27 @@
 /* STRUCT DEFS															  	  */
 /* ************************************************************************** */
 
+typedef struct s_philosopher
+{
+	int 	philo;
+	int		ts_takee_fork;
+	int		ts_eating;
+	int		ts_sleeping;
+	int		ts_thinking;
+	int		ts_died;
+}	t_philosopher;
+
 /***
  * 
  * 
 ***/
 typedef struct s_philo
 {
+	int		nphilosophers;
+	int 	time_die;
+	int 	time_eat;
+	int 	time_sleep;
+	int 	ntimes_must_eat;
 	
 }	t_philo;
 
