@@ -6,12 +6,12 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/02/28 16:15:45 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/01 11:15:06 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PHILO_H
+# define PHILO_H
 
 /***************************************************************************/
 /* STD LIBC INCLUDES													   */
@@ -46,10 +46,11 @@ typedef enum e_status
 } t_status;
 
 
-struct timeval {
-	time_t       tv_sec;   /* seconds since Jan. 1, 1970 */
-	suseconds_t  tv_usec;  /* and microseconds */
-};
+// usr/include/stdlib.h:394,
+// struct timeval {
+// 	time_t       tv_sec;   /* seconds since Jan. 1, 1970 */
+// 	suseconds_t  tv_usec;  /* and microseconds */
+// };
 
 struct timezone {
 	int     tz_minuteswest; /* of Greenwich */
@@ -94,7 +95,6 @@ typedef struct s_philo
 /*
  * PHILOSOPHERS
  */
-int main(int args, char **argv);
 void	free_mem();
 
 #endif

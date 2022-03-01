@@ -6,13 +6,13 @@
 #    By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 11:49:03 by amorcill          #+#    #+#              #
-#    Updated: 2022/02/25 12:33:34 by amorcill         ###   ########.fr        #
+#    Updated: 2022/03/01 12:19:40 by amorcill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	philo
 CC		=	gcc
-FLAGS	=	-Wall -Wextra -Werror -g
+FLAGS	=	-Wall -Wextra -Werror -pthread -g
 
 S		=	src/
 O		=	obj/
@@ -28,7 +28,7 @@ all:		$(NAME)
 # Linking
 $(NAME):	$(OBJS)
 			@echo "\033[1;32m$(NAME)\033[1;0m\033[32m linking...\033[0m"
-			@$(CC) $(FLAGS) $(OBJS) -o $(NAME) 
+			@$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 			@echo "\033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
 
 # Compiling
