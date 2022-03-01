@@ -6,7 +6,7 @@
 #    By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 11:49:03 by amorcill          #+#    #+#              #
-#    Updated: 2022/03/01 12:19:40 by amorcill         ###   ########.fr        #
+#    Updated: 2022/03/01 19:07:36 by amorcill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,10 @@ O		=	obj/
 G		=	garbage_collector/
 
 OBJS	= 	$(patsubst $S%.c, $O%.o, $(SRCS))
-SRCS	=	$Sphilo.c 	\
-			$S$Gfree.c	\
+SRCS	=	$Sphilo.c $Sphilo_parser.c $Sphilo_init.c \
+			$Serror.c \
+			$Sutils.c \
+			$S$Gfree.c \
 
 INCLUDES	=-I ./inc
 

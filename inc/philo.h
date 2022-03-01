@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/01 11:15:06 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:12:38 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define SUCCESS	0
 # define READ		0
 # define WRITE		1
+# define INFINITY	-10
+
 
 /* ************************************************************************** */
 /* STRUCT DEFS															  	  */
@@ -43,6 +45,7 @@ typedef enum e_status
 	SLEEPING,
 	THINKING,
 	DIED,
+	NOSTATUS,
 } t_status;
 
 
@@ -62,14 +65,20 @@ struct timezone {
 
 typedef struct s_philosopher
 {
-	pthread_t	pth_ph;
-	t_status	state;
-	int			ranking_n; //Starting in 1. (index + 1)
-	int			ts_takee_fork;
-	int			ts_eating;
-	int			ts_sleeping;
-	int			ts_thinking;
-	int			ts_died;
+	int				id; //Starting in 1. (index + 1)
+	pthread_t		thr_ph;
+	t_status		state;
+	pthread_mutex_t left_fork;
+	pthread_mutex_t *right_fork; //maybe
+	int				ts_take_fork;
+	int				ts_eating;
+	int				ts_sleeping;
+	int				ts_thinking;
+	int				ts_died;
+	int				time2die;
+	int				time2eat;
+	int				time2sleep;
+	int				ntimes2eat;
 	
 }	t_philosopher;
 
@@ -79,12 +88,12 @@ typedef struct s_philosopher
 ***/
 typedef struct s_philo
 {
-	int				nphilosophers;
-	t_philosopher	*philosophers;
-	int				time2die;
-	int				time2eat;
-	int				time2sleep;
-	int				ntimes_must_eat;
+	int				nphilosophers;	/* number_of_philosophers */
+	t_philosopher	*philosophers;	/* array of t_philos*/
+	int				time2die;		/* time_to_die (in milliseconds) */
+	int				time2eat;		/* time_to_eat (in milliseconds) */
+	int				time2sleep;		/* time_to_sleep (in milliseconds) */
+	int				ntimes2eat;		/* number_of_times_each_philosopher_must_eat (optional argument */
 	
 }	t_philo;
 
@@ -95,6 +104,23 @@ typedef struct s_philo
 /*
  * PHILOSOPHERS
  */
+int		philo_parser_arg(int args, char **argv, t_philo *philo);
+int		philo_init(t_philo *philo);
+/*
+ * FREE
+ */
 void	free_mem();
+
+/*
+ * UTILS
+ */
+size_t	ft_strlen(const char *ch);
+int		ft_isdigit(int c);
+int		ft_atoi_ext(const char *str, int *nbr);
+
+/*
+ * ERROR
+ */
+int error_msg(char *msg);
 
 #endif
