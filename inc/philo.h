@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/01 19:12:38 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:16:29 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
 # define GREEN		"\033[32m"
 # define RED		"\033[35m"
 # define RE			"\033[0m"
+
+# define MAGENTA "\e[35m"
+# define BLUE  "\e[32m"
+# define LIGHTYELLOW "\e[93m"
+# define REDD  "\e[92m"
+# define RESET  "\e[0m"
 
 # define ERROR		-1
 # define SUCCESS	0
@@ -88,8 +94,8 @@ typedef struct s_philosopher
 ***/
 typedef struct s_philo
 {
-	int				nphilosophers;	/* number_of_philosophers */
-	t_philosopher	*philosophers;	/* array of t_philos*/
+	int				nphs;	/* number_of_philosophers */
+	t_philosopher	*phs;	/* array of t_philos*/
 	int				time2die;		/* time_to_die (in milliseconds) */
 	int				time2eat;		/* time_to_eat (in milliseconds) */
 	int				time2sleep;		/* time_to_sleep (in milliseconds) */
@@ -105,7 +111,8 @@ typedef struct s_philo
  * PHILOSOPHERS
  */
 int		philo_parser_arg(int args, char **argv, t_philo *philo);
-int		philo_init(t_philo *philo);
+int		philo_create(t_philo *philo);
+int		philo_join(t_philo *philo);
 /*
  * FREE
  */

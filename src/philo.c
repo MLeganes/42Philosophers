@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:21:50 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/01 19:13:07 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:31:51 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,11 @@ int main(int args, char **argv)
 	if ( philo_parser_arg(args, argv, &philo))
 		return (EXIT_FAILURE);
 
-	if (philo_init(&philo))
+	if (philo_create(&philo))
 		return (EXIT_FAILURE);
 
-	
-	// void *result;
-	// for (t = 0; t < 10; t++)
-	// {
-	// 	pthread_join(threads[t], &result);
-	// 	printf("Thread returned %ld\n", (long)result);;
+	if (philo_join(&philo))
+		return (EXIT_FAILURE);
 
-		
-	// }
-
-    return (0);
+	return (EXIT_SUCCESS);
 }
