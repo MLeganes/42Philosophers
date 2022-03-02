@@ -6,7 +6,7 @@
 #    By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 11:49:03 by amorcill          #+#    #+#              #
-#    Updated: 2022/03/02 12:01:57 by amorcill         ###   ########.fr        #
+#    Updated: 2022/03/02 15:12:34 by amorcill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,14 @@ FLAGS	=	-Wall -Wextra -Werror -pthread -g
 
 S		=	src/
 O		=	obj/
-G		=	garbage_collector/
 
-OBJS	= 	$(patsubst $S%.c, $O%.o, $(SRCS))
-SRCS	=	$Sphilo.c $Sphilo_parser.c $Sphilo_create.c $Sphilo_join.c\
+OBJS	=	$(patsubst $S%.c, $O%.o, $(SRCS))
+SRCS	=	$Sphilo.c \
+			$Sphilo_parser.c $Sphilo_init.c $Sphilo_mutex.c \
+			$Sphilo_create.c $Sphilo_join.c \
 			$Serror.c \
 			$Sutils.c \
-			$S$Gfree.c \
+			$Sfree.c \
 
 INCLUDES	=-I ./inc
 
@@ -35,8 +36,7 @@ $(NAME):	$(OBJS)
 
 # Compiling
 $O%.o:		$S%.c
-			@[ -d $(O) ]	 || mkdir -p $(O)
-			@[ -d $(O)$(G) ] || mkdir -p $(O)$(G)
+			@[ -d $(O) ]	|| mkdir -p $(O)
 			@echo "\033[1;32m$(NAME)\033[1;0m\033[32m compiling...\033[0m"
 			@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 

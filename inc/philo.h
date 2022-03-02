@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/02 12:16:29 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:31:48 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef enum e_status
 	EATING,
 	SLEEPING,
 	THINKING,
-	DIED,
+	DEAD,
 	NOSTATUS,
 } t_status;
 
@@ -74,8 +74,8 @@ typedef struct s_philosopher
 	int				id; //Starting in 1. (index + 1)
 	pthread_t		thr_ph;
 	t_status		state;
-	pthread_mutex_t left_fork;
-	pthread_mutex_t *right_fork; //maybe
+	pthread_mutex_t left_fork; //Same as the philosopher.
+	pthread_mutex_t *right_fork; //maybe. Next philosopher fork.
 	int				ts_take_fork;
 	int				ts_eating;
 	int				ts_sleeping;
@@ -96,6 +96,7 @@ typedef struct s_philo
 {
 	int				nphs;	/* number_of_philosophers */
 	t_philosopher	*phs;	/* array of t_philos*/
+	pthread_mutex_t *forks;
 	int				time2die;		/* time_to_die (in milliseconds) */
 	int				time2eat;		/* time_to_eat (in milliseconds) */
 	int				time2sleep;		/* time_to_sleep (in milliseconds) */
@@ -111,6 +112,8 @@ typedef struct s_philo
  * PHILOSOPHERS
  */
 int		philo_parser_arg(int args, char **argv, t_philo *philo);
+int		philo_init(t_philo *philo);
+int		philo_mutex(t_philo *philo);
 int		philo_create(t_philo *philo);
 int		philo_join(t_philo *philo);
 /*

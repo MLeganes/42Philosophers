@@ -1,43 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_create.c                                     :+:      :+:    :+:   */
+/*   philo_mutex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/01 19:03:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/02 16:33:49 by amorcill         ###   ########.fr       */
+/*   Created: 2022/03/02 14:32:21 by amorcill          #+#    #+#             */
+/*   Updated: 2022/03/02 15:52:48 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *routine_eat(void *arg)
-{
-	t_philosopher *ph;
-
-	ph = (t_philosopher *)arg;
-	(void)ph;
-	
-	return NULL;
-}
-
-int philo_create(t_philo *philo)
+int philo_mutex(t_philo *philo)
 {
 	int i;
-
+	int x;
+	pthread_mutex_t ll;
+	pthread_mutex_t *rr;
+	i = 0;
+	while(i < philo->nphs)
+	{
+		pthread_mutex_init(&philo->phs[i].left_fork, NULL);
+		i++;
+	}
+	// link the Right fork pointer.
 	i = 0;
 	while (i < philo->nphs)
 	{
-		pthread_create(&philo->phs[i].thr_ph, NULL, routine_eat, &philo->phs[i]);
+		x = (i + 1) % 2;
+		//Update right-fork-pointer from the next philosopher.
+		rr = philo->phs[i].right_fork ;
+		ll = philo->phs[x].left_fork;
+		
+		//philo->phs[i].right_fork = (pthread_mutex_t *)ll;
+		(void)rr;
+		(void)ll;
+		
 		i++;
 	}
 	
-	// pthread_t threads[20];
-	// long t;
-	// for ( t = 0; t < 10; t++)
-	// {
-	// 	pthread_create(&threads[t], NULL, &routine, (void *)t); //No create and init
-	// }
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
