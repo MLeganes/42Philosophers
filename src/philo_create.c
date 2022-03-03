@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 19:03:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/02 16:33:49 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/02 21:05:01 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void *routine_eat(void *arg)
 	t_philosopher *ph;
 
 	ph = (t_philosopher *)arg;
+	pthread_mutex_lock(ph->left_fork)
+	pthread_mutex_lock()
+	
 	(void)ph;
 	
 	return NULL;
