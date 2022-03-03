@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 14:46:53 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/02 16:33:01 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:41:28 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,19 @@ int philo_init(t_philo *philo)
 	{		
 		philo->phs[i].id = i + 1;
 		philo->phs[i].state = NOSTATUS;
+		philo->phs[i].isforkfree = true;
 		philo->phs[i].ts_take_fork = 0;
 		philo->phs[i].ts_eating = 0;
 		philo->phs[i].ts_sleeping = 0;
 		philo->phs[i].ts_thinking = 0;
 		philo->phs[i].ts_died = 0;
-		philo->phs[i].time2die = philo->time2die;
-		philo->phs[i].time2eat = philo->time2eat;
-		philo->phs[i].time2sleep = philo->time2sleep;
-		philo->phs[i].ntimes2eat = philo->ntimes2eat;
+		philo->phs[i].philo = philo;
+		i++;
+	}
+	i = 0;
+	while (i < philo->nphs)
+	{
+		philo->phs[i].next = &philo->phs[((i + 1) % philo->nphs)];
 		i++;
 	}
 	return (EXIT_SUCCESS);
