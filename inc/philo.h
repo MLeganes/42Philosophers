@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/03 18:54:13 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/04 16:51:54 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_philo
 	int				time2eat;		/* time_to_eat (in milliseconds) */
 	int				time2sleep;		/* time_to_sleep (in milliseconds) */
 	int				ntimes2eat;		/* number_of_times_each_philosopher_must_eat (optional argument */
+	pthread_mutex_t	mutex_print;
 }	t_philo;
 
 
@@ -115,6 +116,12 @@ int		philo_mutex(t_philo *philo);
 int		philo_create(t_philo *philo);
 int		philo_join(t_philo *philo);
 
+
+/*
+ * ROUTINES
+ */
+void *routine(void *arg);
+
 /*
  * FREE
  */
@@ -126,7 +133,8 @@ void	free_mem();
 size_t	ft_strlen(const char *ch);
 int		ft_isdigit(int c);
 int		ft_atoi_ext(const char *str, int *nbr);
-int print_time(void);
+int 	print_mtime(void);
+long    print_milis(void);
 
 /*
  * ERROR

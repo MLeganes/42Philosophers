@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 14:32:21 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/03 15:58:59 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/04 16:20:54 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int philo_mutex(t_philo *philo)
 		philo->phs[i].mutex_r_fork  = &philo->phs[((i + 1) % philo->nphs)].mutex_l_fork;
 		i++;
 	}
+	pthread_mutex_init(&philo->mutex_print, NULL);
 	return (EXIT_SUCCESS);
 }
