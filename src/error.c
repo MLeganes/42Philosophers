@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:29:03 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/02 12:31:03 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/06 02:07:08 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void print_instruction(void)
 int	error_msg(char *msg)
 {
 	write(STDOUT_FILENO, msg, ft_strlen(msg));
-	print_instruction();
+	print_instruction(); //Change this only to print in parser.
 	return (EXIT_FAILURE);
 }
 

@@ -6,16 +6,66 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 18:50:15 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/04 13:14:22 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:44:46 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	time_print(t_philosopher *philo, char *msg)
+{
+	int 	diff;
+
+	diff = 0;
+	diff = gettimediff((struct timeval *)&philo->start_eating);
+	pthread_mutex_lock(&philo->philo->mutex_print);
+	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff,
+			 "ms", philo->id, msg);
+	pthread_mutex_unlock(&philo->philo->mutex_print);
+}
+
+void	print_time_msg(t_philosopher *philo, char *msg)
+{
+	int 	diff;
+
+	diff = 0;
+	diff = gettimediff((struct timeval *)&philo->start_eating);
+	pthread_mutex_lock(&philo->philo->mutex_print);
+	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff,
+			 "ms", philo->id, msg);
+	pthread_mutex_unlock(&philo->philo->mutex_print);
+}
+
+// void	time_2print(t_philosopher *philo, char *msg)
+// {
+// 	//u_int64_t	diff;
+// 	//__uint64_t	diff;
+// 	//long	diff;
+// 	int 	diff;
+
+// 	diff = 0;
+// 	diff = gettimediff((struct timeval *)&philo->start_eating);
+// 	pthread_mutex_lock(&philo->philo->mutex_print);
+// 	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff, "ms", philo->id, msg);
+// 	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff, "ms", philo->id, msg);
+// 	pthread_mutex_unlock(&philo->philo->mutex_print);
+// }
+
+int	gettimediff(struct timeval *t)
+{
+	struct timeval now;
+
+	gettimeofday(&now, NULL);
+	
+	return (((now.tv_sec - t->tv_sec) * 1000)
+		+ ((now.tv_usec - t->tv_usec) / 1000));
+}
+
+
 /*
 ** Returns the timestamp in milliseconds
 */
-long    get_mtime(void)
+long    gettime(void)
 {
     struct timeval  tp;
     long            milliseconds;
@@ -26,50 +76,31 @@ long    get_mtime(void)
     return (milliseconds);
 }
 
-/*
-** Prints time, sleeps 200ms, repeats!
-*/
-
-int print_mtime(void)
+/***
+ * countdown in microsegundos. 
+ * time-2-die or time-2-sleep
+ * 
+ * 
+ ***/
+t_status time_countdown(t_philosopher *ph, int countdown)
 {
-    long start_time;
-		
-		// Remember when we started
-    start_time = get_mtime();
+	long	start;
+	long	now;
+	long 	time_eating;
 
-    while (1)
-    {
-				// Print time from start, in ms
-        printf("%ld\n", get_mtime() - start_time);
+	start = gettime();
+	now = start;
 
-				// Sleep 200 times 1000 microseconds (1 millisecond)
-        usleep(200 * 1000);
-    }
-}
-
-/*
-** Returns the timestamp in milliseconds
-*/
-long    print_milis(void)
-{
-	long start_time;
-	long one_mili_more;
-
-	start_time = get_mtime();
-	one_mili_more = start_time  * 1000;
-	printf("Start time: %ld One mili more: %ld \n", start_time, one_mili_more);
-	while(1)
+	time_eating = ph->start_eating.tv_sec * 1000 + ph->start_eating.tv_usec / 1000;
+	while (now < (start + countdown))
 	{
-		//printf("%ld \n", get_mtime() - start_time);
-		//usleep(999900); //1 second
-		
-		start_time = get_mtime();
-		one_mili_more = start_time  * 1000;
-		while (start_time < one_mili_more)
+		usleep(100);
+		now = gettime();
+		if ( time_eating + ph->philo->time2die < now)
 		{
-			usleep(200);
+			ph->state = DIED;
+			return (DIED);
 		}
-		printf("%ld \n", get_mtime() - start_time);
-		
 	}
+	return (ph->state);
 }

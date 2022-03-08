@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 14:46:53 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/04 13:28:53 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/08 22:26:58 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,33 @@ int philo_init(t_philo *philo)
 			return (error_msg("Error: malloc not correct\n"));
 	i = 0;
 	while (i < philo->nphs)
-	{		
+	{	
+		philo->phs[i].thr = (pthread_t *)malloc(sizeof(pthread_t));
+		if (philo->phs[i].thr == NULL)
+			return (error_msg("Error: Failed to allocate mem for thread"));
 		philo->phs[i].id = i + 1;
 		philo->phs[i].state = THINKING;
-		philo->phs[i].isforkfree = true;
-		philo->phs[i].ts_take_fork = 0;
-		philo->phs[i].ts_eating = 0;
-		philo->phs[i].ts_sleeping = 0;
-		philo->phs[i].ts_thinking = 0;
-		philo->phs[i].ts_died = 0;
+		philo->phs[i].hasfork = false;
+		// philo->phs[i].ts_take_fork = (u_int64_t)0;
+		// philo->phs[i].ts_eating = (u_int64_t)0;
+		// philo->phs[i].ts_sleeping = (u_int64_t)0;
+		// philo->phs[i].ts_thinking = (u_int64_t)0;
+		// philo->phs[i].ts_died = (u_int64_t)0;
 		philo->phs[i].philo = philo;
+		philo->phs[i].next = NULL;
+		gettimeofday((struct timeval *)&philo->phs[i].start_eating, NULL);
+		//philo->phs[i].ts_start = get_time();
+	
 		i++;
 	}
-	i = 0;
-	while (i < philo->nphs)
+	if(philo->nphs > 1)
 	{
-		philo->phs[i].next = &philo->phs[((i + 1) % philo->nphs)];
-		i++;
+		i = 0;
+		while (i < philo->nphs)
+		{
+			philo->phs[i].next = &philo->phs[((i + 1) % philo->nphs)];
+			i++;
+		}
 	}
 	return (EXIT_SUCCESS);
 }

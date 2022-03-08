@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 19:03:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/04 17:05:03 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 00:20:34 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,94 +20,133 @@ char *char_state(int state)
 		return ("sleeping");
 	if (state == THINKING)
 		return ("thinking");
-	if (state == DEAD)
+	if (state == DIED)
 		return ("dead");
 	return ("no status");
 }
 
-// void *routine_eat(void *arg)
-// {
-// 	t_philosopher *ph;	
-// 	ph = (t_philosopher *)arg;
-// 	// if (ph->isforkfree == true)
-// 	// {
-// 	// 	pthread_mutex_lock(&ph->mutex_l_fork);
-// 	// 	if (ph->next->isforkfree == true)
-// 	// 	{
-// 	// 		pthread_mutex_lock(&ph->next->mutex_l_fork);
-// 	// 		ph->isforkfree = false;
-// 	// 		ph->next->isforkfree = false;
-// 	// 		pthread_mutex_unlock(&ph->next->mutex_l_fork);
-// 	// 	}
-// 	// 	pthread_mutex_unlock(&ph->mutex_l_fork);
-// 	// }
-// 	while (1)
-// 	{
-// 		// take forks TO EAT.
-// 		if (ph->state == THINKING)
-// 		{
-// 			pthread_mutex_lock(ph->mutex_r_fork);
-// 			pthread_mutex_unlock(&ph->mutex_l_fork);
-// 				ph->isforkfree = false;
-// 				ph->next->isforkfree = false;
-// 			pthread_mutex_unlock(&ph->mutex_l_fork);
-// 			pthread_mutex_unlock(ph->mutex_r_fork);
-// 			if ( ph->isforkfree == false && ph->next->isforkfree == false)
-// 				ph->state = EATING;
-// 			//pthread_mutex_lock(&ph->philo->mutex_print);
-// 			printf("Philo %d is %s... and asking for forks R-fork is:%d L-fork is: %d \n", ph->id, char_state(ph->state), (int)ph->isforkfree, (int)ph->next->isforkfree);
-// 			//pthread_mutex_unlock(&ph->philo->mutex_print);
-// 		}
-// 		// EATING TIME
-// 		// if (ph->state == EATING)
-// 		// {
-// 		// 	//WAIT TIME FOR EATING.
-// 		// 	sleep(1);
-// 		// 	// WAIT TIME TO SLEEP.
-// 		// 	sleep(1);
-// 		// 	ph->state = THINKING;
-// 		// 	pthread_mutex_lock(ph->mutex_r_fork);
-// 		// 	pthread_mutex_unlock(&ph->mutex_l_fork);
-// 		// 		ph->isforkfree = true;
-// 		// 		ph->next->isforkfree = true;
-// 		// 	pthread_mutex_unlock(&ph->mutex_l_fork);
-// 		// 	pthread_mutex_unlock(ph->mutex_r_fork);
-// 		// 	pthread_mutex_lock(&ph->philo->mutex_print);
-// 		// 	printf("Philo %d is %s... R-fork is:%d L-fork is: %d \n", ph->id, char_state(ph->state), (int)ph->isforkfree, (int)ph->next->isforkfree);
-// 		// 	pthread_mutex_unlock(&ph->philo->mutex_print);
-// 		//}
-// 	}
-// 	return NULL;
-// }
-
-void philo_take_forks(t_philosopher *ph)
+int fork_takeone(t_philosopher *ph, int fork)
 {
-	pthread_mutex_lock(&ph->mutex_l_fork);
-	pthread_mutex_lock(ph->mutex_r_fork);
-	ph->isforkfree = false;
-	ph->next->isforkfree = false;
-	pthread_mutex_unlock(&ph->mutex_l_fork);
-	pthread_mutex_unlock(ph->mutex_r_fork);
+	bool ret;
+
+	ret = false;
+	if (fork == LEFT)
+	{
+		pthread_mutex_lock(&ph->mutex_l_fork);
+		if (ph->hasfork == false)
+		{
+			ph->hasfork = true;
+			ret = true;
+		}
+		pthread_mutex_unlock(&ph->mutex_l_fork);
+		print_time_msg(ph, YELLOW"has taken a fork");
+	}
+	else if (fork == RIGHT)
+	{
+		if (ph->mutex_r_fork && ph->next)
+		{
+			pthread_mutex_lock(ph->mutex_r_fork);
+			if (ph->next->hasfork == false)
+			{
+				ph->next->hasfork = true;
+				ret = true;
+			}
+			pthread_mutex_unlock(ph->mutex_r_fork);
+			print_time_msg(ph, YELLOW"has taken a fork");
+		}
+	}
+	return (ret);
 }
 
+void fork_releaseone(t_philosopher *ph, int fork)
+{
+	if (fork == LEFT)
+	{
+		pthread_mutex_lock(&ph->mutex_l_fork);
+			ph->hasfork = false;
+		pthread_mutex_unlock(&ph->mutex_l_fork);
+	}
+	else if (fork == RIGHT)
+	{
+		pthread_mutex_lock(ph->mutex_r_fork);
+			ph->next->hasfork = false;
+		pthread_mutex_unlock(ph->mutex_r_fork);
+	}
+}
+
+int philo_takefork(t_philosopher *ph, int fork)
+{
+	long 	time_eating;
+
+	time_eating = ph->start_eating.tv_sec * 1000 + ph->start_eating.tv_usec / 1000;
+	while (fork_takeone(ph, fork) == false)
+	{
+		if ( time_eating + ph->philo->time2die < gettime())
+		{
+			ph->state = DIED;
+			return (false);
+		}
+	}
+	return (true);
+}
 
 void philo_eat(t_philosopher *ph)
 {
-	philo_take_forks(ph);
-	printf("Philo %d is %s... and asking for forks R-fork is:%d L-fork is: %d \n", ph->id, char_state(ph->state), (int)ph->isforkfree, (int)ph->next->isforkfree);
+	if (philo_takefork(ph, LEFT) == false || philo_takefork(ph, RIGHT) == false)
+		return ;
+	print_time_msg(ph, GREEN"is eating");
+	
+	ph->state = EATING;
+	gettimeofday((struct timeval *)&ph->start_eating, NULL);
+	// Call the time_countdown to do the usleep, keeping the eyee in the time-2-die.
+	if (time_countdown(ph, ph->philo->time2eat) == DIED)
+		return ;
+	// Finished eating
+	// release forks
+	fork_releaseone(ph, LEFT);
+	fork_releaseone(ph, RIGHT);
+	ph->state = SLEEPING;	
 }
 
-/* Routine for infinitive loop */
-void *routine(void *arg)
+/* Routine for finitive loop */
+void *routine_limited(void *arg)
 {
 	t_philosopher *ph;
+	int i;
 
+	i = 0;
 	ph = (t_philosopher *)arg;
-	while (1)
+	
+	while (i < ph->philo->ntimes2eat)
 	{
-		/* code */
-		philo_eat(ph);
+		if (ph->state == THINKING)
+			philo_eat(ph);
+		if (ph->state == SLEEPING)
+		{
+			
+			print_time_msg(ph, BLUE"is sleeping");
+			ph->state = SLEEPING;
+			time_countdown(ph, ph->philo->time2sleep);
+			print_time_msg(ph, PINK"is thinking");
+			ph->state = THINKING;
+		}
+		if (ph->state == DIED)
+		{
+			print_time_msg(ph, RED"has died");
+			free_mem(ph->philo);
+			return NULL;
+			// free everything
+			// stop
+		}
+		i++;
 	}
+	return ph;
+}
+
+void *routine_unlimited(void *arg)
+{
+	(void)arg;
+	return NULL;
 }
 
 int philo_create(t_philo *philo)
@@ -117,8 +156,19 @@ int philo_create(t_philo *philo)
 	i = 0;
 	while (i < philo->nphs)
 	{
-		pthread_create(&philo->phs[i].thr_ph, NULL, routine, &philo->phs[i]);
+		if (philo->infinity)
+		{
+			if (pthread_create(philo->phs[i].thr, NULL, &routine_unlimited, (void *)&philo->phs[i]) != 0)
+				return (error_msg("Error: Failed to create pthread\n"));
+			//usleep(100);
+		}
+		else
+		{
+			if (pthread_create(philo->phs[i].thr, NULL, &routine_limited, (void *)&philo->phs[i]) != 0)
+				return (error_msg("Error: Failed to create pthread\n"));
+			//usleep(100);
+		}
 		i++;
 	}
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
