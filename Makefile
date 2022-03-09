@@ -21,7 +21,7 @@ O		=	obj/
 OBJS	=	$(patsubst $S%.c, $O%.o, $(SRCS))
 SRCS	=	$Sphilo.c \
 			$Sphilo_parser.c $Sphilo_init.c $Sphilo_mutex.c \
-			$Sphilo_create.c $Sphilo_join.c \
+			$Sphilo_create.c $Sphilo_join.c $Sphilo_eat.c \
 			$Serror.c \
 			$Sutils.c \
 			$Stime.c \

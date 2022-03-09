@@ -6,44 +6,42 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 14:46:53 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 16:52:48 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:31:01 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int philo_init(t_philo *philo)
+static void	philosopher_new(int i, t_philosopher *ph, t_philo *philo)
 {
-	int i;
+	ph->id = i + 1;
+	if ((i % 2) == 0)
+		ph->state = THINKING;
+	else
+		ph->state = SLEEPING;
+	ph->hasfork = false;
+	ph->philo = philo;
+	ph->next = NULL;
+	gettimeofday((struct timeval *)&ph->start_eating, NULL);
+}
+
+int	philo_init(t_philo *philo)
+{
+	int	i;
 
 	philo->phs = (t_philosopher *)malloc(sizeof(t_philosopher) * philo->nphs);
 	if (philo->phs == NULL)
-			return (error_msg("Error: malloc not correct\n"));
+		return (error_msg("Error: malloc not correct\n"));
 	i = 0;
 	while (i < philo->nphs)
 	{	
 		philo->phs[i].thr = (pthread_t *)malloc(sizeof(pthread_t));
 		if (philo->phs[i].thr == NULL)
 			return (error_msg("Error: Failed to allocate mem for thread"));
-		philo->phs[i].id = i + 1;
-		if ((i % 2) == 0)
-			philo->phs[i].state = THINKING;
-		else
-			philo->phs[i].state = SLEEPING;
-		philo->phs[i].hasfork = false;
-		// philo->phs[i].ts_take_fork = (u_int64_t)0;
-		// philo->phs[i].ts_eating = (u_int64_t)0;
-		// philo->phs[i].ts_sleeping = (u_int64_t)0;
-		// philo->phs[i].ts_thinking = (u_int64_t)0;
-		// philo->phs[i].ts_died = (u_int64_t)0;
-		philo->phs[i].philo = philo;
-		philo->phs[i].next = NULL;
-		gettimeofday((struct timeval *)&philo->phs[i].start_eating, NULL);
-		//philo->phs[i].ts_start = get_time();
-	
+		philosopher_new(i, &philo->phs[i], philo);
 		i++;
 	}
-	if(philo->nphs > 1)
+	if (philo->nphs > 1)
 	{
 		i = 0;
 		while (i < philo->nphs)

@@ -6,12 +6,11 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:30:59 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/01 18:06:23 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:14:17 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 size_t	ft_strlen(const char *ch)
 {
@@ -33,7 +32,6 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
-
 
 static int	ft_isspace(char c)
 {
@@ -64,12 +62,12 @@ static int	ft_sign(char c)
  */
 int	ft_atoi_ext(const char *str, int *nbr)
 {
-	unsigned int	result;
+	unsigned int	ret;
 	int				sign;
 	int				i;
 
 	sign = 1;
-	result = 0;
+	ret = 0;
 	i = 0;
 	while (ft_isspace(str[i]))
 		i++;
@@ -78,15 +76,15 @@ int	ft_atoi_ext(const char *str, int *nbr)
 		sign = ft_sign(str[i]);
 		i++;
 	}
-	while (str[i] != '\0' && result <= 2147483648)
+	while (str[i] != '\0' && ret <= 2147483648)
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
-		result = (result * 10) + (str[i] - '0');
+		ret = (ret * 10) + (str[i] - '0');
 		i++;
 	}
-	if ((sign == -1 && result > 2147483648) || (sign == 1 && result > 2147483647))
+	if ((sign == -1 && ret > 2147483648) || (sign == 1 && ret > 2147483647))
 		return (0);
-	*nbr = (int)(sign * result);
+	*nbr = (int)(sign * ret);
 	return (1);
 }
