@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:56:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 20:04:37 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:02:21 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ static int	fork_takeone(t_philosopher *ph, pthread_mutex_t *mut)
 static int	philo_takefork(t_philosopher *ph, pthread_mutex_t *mut)
 {
 	long	time_eating;
+
+	if (ph == NULL || mut == NULL)
+		return (false);
 
 	time_eating = ph->start_eating.tv_sec * 1000
 		+ ph->start_eating.tv_usec / 1000;
