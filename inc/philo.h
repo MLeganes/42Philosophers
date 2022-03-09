@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 20:55:36 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 22:06:22 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 # define REDD  "\e[92m"
 # define RESET  "\e[0m"
 
-# define LEFT		0
-# define RIGHT		1
 # define INFINITY	-10
 
 /* ************************************************************************** */
@@ -64,6 +62,7 @@ typedef struct s_philosopher
 	bool					hasfork;
 	pthread_mutex_t			*mutex_r_fork;
 	const struct timeval	start_eating;
+	int 					ntimes2eat;
 	struct s_philosopher	*next;
 	struct s_philo			*philo;
 }	t_philosopher;

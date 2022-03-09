@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 19:03:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 20:05:51 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:58:19 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,14 @@ void	*philo_died(t_philosopher *ph)
 
 void	*routine_limited(void *arg)
 {
-	int				i;
 	t_philosopher	*ph;
 
-	i = 0;
 	ph = (t_philosopher *)arg;
-	while (i < ph->philo->ntimes2eat)
+	while (ph->ntimes2eat > 0)
 	{
 		if (ph->state == THINKING)
 			philo_eat(ph);
-		if (ph->state == SLEEPING)
+		if (ph->state == SLEEPING && ph->ntimes2eat > 0)
 		{
 			if (print_time_msg(ph, BLUE"is sleeping") == false)
 				return (NULL);
@@ -50,7 +48,6 @@ void	*routine_limited(void *arg)
 		}
 		if (ph->state == DIED)
 			return (philo_died(ph));
-		i++;
 	}
 	return (ph);
 }

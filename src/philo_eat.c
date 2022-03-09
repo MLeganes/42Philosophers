@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:56:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 21:02:21 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 21:47:33 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	philo_eat(t_philosopher *ph)
 		return ;
 	fork_release(&ph->mutex_l_fork, ph);
 	fork_release(ph->mutex_r_fork, ph->next);
+	ph->ntimes2eat--;
 	ph->state = SLEEPING;
 }
