@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/08 16:44:54 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 17:33:58 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ typedef struct s_philosopher
 ***/
 typedef struct s_philo
 {
+	bool 					running;
+	pthread_mutex_t 		mutex_running;
 	int				nphs;			/* number_of_philosophers */
 	t_philosopher	*phs;			/* array of t_philos*/
 	int				time2die;		/* time_to_die (in milliseconds) */
@@ -121,6 +123,7 @@ typedef struct s_philo
 	
 	int				ntimes2eat;		/* number_of_times_each_philosopher_must_eat (optional argument */
 	bool 			infinity;
+	const struct timeval	start_dinner;
 	pthread_mutex_t	mutex_print;
 }	t_philo;
 
@@ -152,7 +155,7 @@ void	free_mem();
  * PRINT
  */
 
-void	print_time_msg(t_philosopher *philo, char *msg);
+bool		print_time_msg(t_philosopher *philo, char *msg);
 void		time_print(t_philosopher *philo, char *msg);
 //void		time_2print(t_philosopher *philo, char *msg);
 

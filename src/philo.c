@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:21:50 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/08 14:10:33 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 18:15:11 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void dinner_init(t_philo *dinner)
 	dinner->time2die = 0;
 	dinner->time2eat = 0;
 	dinner->time2sleep  = 0;
+	dinner->running = true;
 }
 
 int main(int args, char **argv)
@@ -93,6 +94,7 @@ int main(int args, char **argv)
 		return (EXIT_FAILURE);
 
 	free_mem(&philo);
+	system("leaks philo");
 	printf("End of Philosophers dinner!");
 	return (EXIT_SUCCESS);
 }

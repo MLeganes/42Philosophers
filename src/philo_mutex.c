@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 14:32:21 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/08 22:58:20 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 18:12:59 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int philo_mutex(t_philo *philo)
 		}
 	}
 	if (pthread_mutex_init(&philo->mutex_print, NULL) != 0)
+		return (error_msg("Error: Failed to initialize mutex\n"));
+	if (pthread_mutex_init(&philo->mutex_running, NULL) != 0)
 		return (error_msg("Error: Failed to initialize mutex\n"));
 	return (EXIT_SUCCESS);
 }

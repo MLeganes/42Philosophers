@@ -6,34 +6,42 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 18:50:15 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/08 16:44:46 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 17:33:16 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	time_print(t_philosopher *philo, char *msg)
+// void	time_print(t_philosopher *philo, char *msg)
+// {
+// 	int 	diff;
+
+// 	diff = 0;
+// 	diff = gettimediff((struct timeval *)&philo->start_eating);
+// 	pthread_mutex_lock(&philo->philo->mutex_print);
+// 	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff,
+// 			 "ms", philo->id, msg);
+// 	pthread_mutex_unlock(&philo->philo->mutex_print);
+// }
+
+bool	print_time_msg(t_philosopher *philo, char *msg)
 {
-	int 	diff;
+	// int 	diff;	
+	int 	newdiff;
+	bool 	ret;
 
-	diff = 0;
-	diff = gettimediff((struct timeval *)&philo->start_eating);
+	newdiff = gettimediff((struct timeval *)&philo->philo->start_dinner);
 	pthread_mutex_lock(&philo->philo->mutex_print);
-	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff,
-			 "ms", philo->id, msg);
-	pthread_mutex_unlock(&philo->philo->mutex_print);
-}
+	pthread_mutex_lock(&philo->philo->mutex_running);
+	ret = philo->philo->running;
+	if (philo->philo->running)
 
-void	print_time_msg(t_philosopher *philo, char *msg)
-{
-	int 	diff;
-
-	diff = 0;
-	diff = gettimediff((struct timeval *)&philo->start_eating);
-	pthread_mutex_lock(&philo->philo->mutex_print);
-	printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", diff,
-			 "ms", philo->id, msg);
+		printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", newdiff,
+				 "ms", philo->id, msg);
+	
+	pthread_mutex_unlock(&philo->philo->mutex_running);
 	pthread_mutex_unlock(&philo->philo->mutex_print);
+	return (ret);
 }
 
 // void	time_2print(t_philosopher *philo, char *msg)

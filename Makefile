@@ -1,4 +1,4 @@
-# **************************************************************************** #
+ # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -12,7 +12,8 @@
 
 NAME	=	philo
 CC		=	gcc
-FLAGS	=	-Wall -Wextra -Werror -pthread -g
+FLAGS	=	-Wall -Wextra -Werror -pthread -g 
+#-fsanitize=thread
 
 S		=	src/
 O		=	obj/

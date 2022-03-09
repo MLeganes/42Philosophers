@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:21:55 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/07 15:26:46 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/09 17:55:40 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	free_mem(t_philo *philo)
 		pthread_mutex_destroy(&philo->phs[i].mutex_l_fork);
 		i++;
 	}
+	pthread_mutex_destroy(&philo->mutex_print);
+	pthread_mutex_destroy(&philo->mutex_running);	
 	
 	// Free pthreads
 	i = 0;
