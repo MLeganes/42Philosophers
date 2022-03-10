@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:56:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/10 17:59:48 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:12:03 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ static int	fork_takeone(t_philosopher *ph, sem_t *sem)
 	bool	ret;
 
 	ret = false;
-	//pthread_mutex_lock(mut);
 	sem_wait(sem);
 	if (ph->hasfork == false)
 	{
 		ph->hasfork = true;
 		ret = true;
 	}
-	//thread_mutex_unlock(mut);
 	sem_post(sem);
 	return (ret);
 }
@@ -36,7 +34,6 @@ static int	philo_takefork(t_philosopher *ph, sem_t *mut)
 
 	if (ph == NULL || mut == NULL)
 		return (false);
-
 	time_eating = ph->start_eating.tv_sec * 1000
 		+ ph->start_eating.tv_usec / 1000;
 	while (fork_takeone(ph, mut) == false)
@@ -52,10 +49,8 @@ static int	philo_takefork(t_philosopher *ph, sem_t *mut)
 
 static void	fork_release(sem_t *sem, t_philosopher *ph)
 {
-	//pthread_mutex_lock(mut);
 	sem_wait(sem);
 	ph->hasfork = false;
-	//pthread_mutex_unlock(mut);
 	sem_post(sem);
 }
 

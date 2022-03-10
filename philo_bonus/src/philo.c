@@ -6,11 +6,10 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:21:50 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/10 15:42:11 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:09:46 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "philo.h"
 #include "philo_bonus.h"
 
 static void	dinner_init(t_philo *dinner)
@@ -57,7 +56,7 @@ int	main(int args, char **argv)
 		return (EXIT_FAILURE);
 	if (philo_init(&philo))
 		return (EXIT_FAILURE);
-	if (philo_mutex(&philo))
+	if (philo_semaphore(&philo))
 		return (EXIT_FAILURE);
 	if (philo_create(&philo))
 		return (EXIT_FAILURE);

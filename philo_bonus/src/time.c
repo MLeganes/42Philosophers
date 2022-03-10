@@ -6,11 +6,10 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 18:50:15 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/10 18:01:58 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:11:45 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "philo.h"
 #include "philo_bonus.h"
 
 bool	print_time_msg(t_philosopher *philo, char *msg)
@@ -19,8 +18,6 @@ bool	print_time_msg(t_philosopher *philo, char *msg)
 	bool	ret;
 
 	newdiff = gettimediff((struct timeval *)&philo->philo->start_dinner);
-	// pthread_mutex_lock(&philo->philo->mutex_print);
-	// pthread_mutex_lock(&philo->philo->mutex_running);
 	sem_wait(philo->philo->sem_print);
 	sem_wait(philo->philo->sem_running);
 	ret = philo->philo->running;
@@ -29,8 +26,6 @@ bool	print_time_msg(t_philosopher *philo, char *msg)
 			"ms", philo->id, msg);
 	sem_post(philo->philo->sem_running);
 	sem_post(philo->philo->sem_print);
-	// pthread_mutex_unlock(&philo->philo->mutex_running);
-	// pthread_mutex_unlock(&philo->philo->mutex_print);
 	return (ret);
 }
 

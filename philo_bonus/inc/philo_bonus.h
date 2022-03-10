@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/10 15:41:02 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:11:29 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,11 @@ typedef struct s_philosopher
 	pid_t					pid;
 	t_status				state;
 	pthread_t				*thr;
-	//pthread_mutex_t		mutex_l_fork;
 	sem_t					*sem_l_fork;
 	bool					hasfork;
-	//pthread_m_t			*mutex_r_fork;
 	sem_t					*sem_r_fork;
 	const struct timeval	start_eating;
-	int 					ntimes2eat;
+	int						ntimes2eat;
 	struct s_philosopher	*next;
 	struct s_philo			*philo;
 }	t_philosopher;
@@ -89,8 +87,6 @@ typedef struct s_philo
 	int						ntimes2eat;
 	bool					infinity;
 	const struct timeval	start_dinner;
-	//pthread_mutex_t		mutex_running;
-	//pthread_mutex_t		mutex_print;
 	sem_t					*sem_print;
 	sem_t					*sem_running;
 }	t_philo;
@@ -104,7 +100,7 @@ typedef struct s_philo
  */
 int			philo_parser_arg(int args, char **argv, t_philo *philo);
 int			philo_init(t_philo *philo);
-int			philo_mutex(t_philo *philo);
+int			philo_semaphore(t_philo *philo);
 int			philo_create(t_philo *philo);
 void		philo_eat(t_philosopher *ph);
 int			philo_join(t_philo *philo);
@@ -123,7 +119,11 @@ t_status	time_countdown(t_philosopher *ph, int countdown);
 size_t		ft_strlen(const char *ch);
 int			ft_isdigit(int c);
 int			ft_atoi_ext(const char *str, int *nbr);
-
+char		*ft_strjoin(char *s1, char *s2);
+char		*get_semname(int i);
+void		ft_bzero(void *s, size_t n);
+char		*ft_strdup(const char *s);
+char		*ft_itoa(int n);
 /*
  * FREE
  */

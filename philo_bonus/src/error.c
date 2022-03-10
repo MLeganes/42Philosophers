@@ -6,11 +6,10 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:29:03 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/10 18:05:50 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:10:05 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "philo.h"
 #include "philo_bonus.h"
 
 int	ft_putstr_fd(char *s, int fd)
