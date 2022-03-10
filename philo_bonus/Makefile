@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	philo
+NAME	=	philo_bonus
 CC		=	gcc
 FLAGS	=	-Wall -Wextra -Werror -pthread -g 
 #-fsanitize=thread

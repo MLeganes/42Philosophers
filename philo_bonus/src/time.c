@@ -6,11 +6,12 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 18:50:15 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 20:10:38 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 18:01:58 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
+#include "philo_bonus.h"
 
 bool	print_time_msg(t_philosopher *philo, char *msg)
 {
@@ -18,14 +19,18 @@ bool	print_time_msg(t_philosopher *philo, char *msg)
 	bool	ret;
 
 	newdiff = gettimediff((struct timeval *)&philo->philo->start_dinner);
-	pthread_mutex_lock(&philo->philo->mutex_print);
-	pthread_mutex_lock(&philo->philo->mutex_running);
+	// pthread_mutex_lock(&philo->philo->mutex_print);
+	// pthread_mutex_lock(&philo->philo->mutex_running);
+	sem_wait(philo->philo->sem_print);
+	sem_wait(philo->philo->sem_running);
 	ret = philo->philo->running;
 	if (philo->philo->running)
 		printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m", newdiff,
 			"ms", philo->id, msg);
-	pthread_mutex_unlock(&philo->philo->mutex_running);
-	pthread_mutex_unlock(&philo->philo->mutex_print);
+	sem_post(philo->philo->sem_running);
+	sem_post(philo->philo->sem_print);
+	// pthread_mutex_unlock(&philo->philo->mutex_running);
+	// pthread_mutex_unlock(&philo->philo->mutex_print);
 	return (ret);
 }
 

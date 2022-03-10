@@ -6,28 +6,31 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 19:56:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 21:47:33 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 17:59:48 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
+#include "philo_bonus.h"
 
-static int	fork_takeone(t_philosopher *ph, pthread_mutex_t *mut)
+static int	fork_takeone(t_philosopher *ph, sem_t *sem)
 {
 	bool	ret;
 
 	ret = false;
-	pthread_mutex_lock(mut);
+	//pthread_mutex_lock(mut);
+	sem_wait(sem);
 	if (ph->hasfork == false)
 	{
 		ph->hasfork = true;
 		ret = true;
 	}
-	pthread_mutex_unlock(mut);
+	//thread_mutex_unlock(mut);
+	sem_post(sem);
 	return (ret);
 }
 
-static int	philo_takefork(t_philosopher *ph, pthread_mutex_t *mut)
+static int	philo_takefork(t_philosopher *ph, sem_t *mut)
 {
 	long	time_eating;
 
@@ -47,20 +50,22 @@ static int	philo_takefork(t_philosopher *ph, pthread_mutex_t *mut)
 	return (true);
 }
 
-static void	fork_release(pthread_mutex_t *mut, t_philosopher *ph)
+static void	fork_release(sem_t *sem, t_philosopher *ph)
 {
-	pthread_mutex_lock(mut);
+	//pthread_mutex_lock(mut);
+	sem_wait(sem);
 	ph->hasfork = false;
-	pthread_mutex_unlock(mut);
+	//pthread_mutex_unlock(mut);
+	sem_post(sem);
 }
 
 void	philo_eat(t_philosopher *ph)
 {
-	if (philo_takefork(ph, &ph->mutex_l_fork) == false)
+	if (philo_takefork(ph, ph->sem_l_fork) == false)
 		return ;
 	if (print_time_msg(ph, YELLOW"has taken a fork") == false)
 		return ;
-	if (philo_takefork(ph->next, ph->mutex_r_fork) == false)
+	if (philo_takefork(ph->next, ph->sem_r_fork) == false)
 		return ;
 	if (print_time_msg(ph, YELLOW"has taken a fork") == false)
 		return ;
@@ -70,8 +75,8 @@ void	philo_eat(t_philosopher *ph)
 	gettimeofday((struct timeval *)&ph->start_eating, NULL);
 	if (time_countdown(ph, ph->philo->time2eat) == DIED)
 		return ;
-	fork_release(&ph->mutex_l_fork, ph);
-	fork_release(ph->mutex_r_fork, ph->next);
+	fork_release(ph->sem_l_fork, ph);
+	fork_release(ph->sem_r_fork, ph->next);
 	ph->ntimes2eat--;
 	ph->state = SLEEPING;
 }

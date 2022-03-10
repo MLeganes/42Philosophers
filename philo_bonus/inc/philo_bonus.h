@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 22:06:22 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 15:41:02 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+//#ifndef PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 /* ************************************************************************* */
 /* STD LIBC INCLUDES														 */
@@ -19,9 +20,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <pthread.h>
 # include <stdbool.h>
 # include <sys/time.h>
+# include <sys/wait.h>
+# include <semaphore.h>
+# include <pthread.h>
+# include <fcntl.h>
 
 /* ************************************************************************** */
 /* COLORS																	..*/
@@ -56,11 +60,14 @@ typedef enum e_status
 typedef struct s_philosopher
 {
 	int						id;
+	pid_t					pid;
 	t_status				state;
 	pthread_t				*thr;
-	pthread_mutex_t			mutex_l_fork;
+	//pthread_mutex_t		mutex_l_fork;
+	sem_t					*sem_l_fork;
 	bool					hasfork;
-	pthread_mutex_t			*mutex_r_fork;
+	//pthread_m_t			*mutex_r_fork;
+	sem_t					*sem_r_fork;
 	const struct timeval	start_eating;
 	int 					ntimes2eat;
 	struct s_philosopher	*next;
@@ -74,7 +81,6 @@ typedef struct s_philosopher
 typedef struct s_philo
 {
 	bool					running;
-	pthread_mutex_t			mutex_running;
 	int						nphs;
 	t_philosopher			*phs;
 	int						time2die;
@@ -83,7 +89,10 @@ typedef struct s_philo
 	int						ntimes2eat;
 	bool					infinity;
 	const struct timeval	start_dinner;
-	pthread_mutex_t			mutex_print;
+	//pthread_mutex_t		mutex_running;
+	//pthread_mutex_t		mutex_print;
+	sem_t					*sem_print;
+	sem_t					*sem_running;
 }	t_philo;
 
 /* ************************************************************************** */

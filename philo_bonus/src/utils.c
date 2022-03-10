@@ -6,11 +6,12 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:30:59 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 20:14:17 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 15:42:24 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
+#include "philo_bonus.h"
 
 size_t	ft_strlen(const char *ch)
 {

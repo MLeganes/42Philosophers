@@ -6,11 +6,12 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:29:03 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 19:22:02 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 18:05:50 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
+#include "philo_bonus.h"
 
 int	ft_putstr_fd(char *s, int fd)
 {
@@ -29,9 +30,9 @@ static void	print_instruction(void)
 	ft_putstr_fd(REDD"[ time_to_sleep ]"RESET"-> ms\n", 1);
 	ft_putstr_fd(
 		REDD"[ number_of_times_each_philosopher_must_eat ]"RESET"-> opt\n", 1);
-	ft_putstr_fd("\n""Example: ./philo 2 120 20 20 2", 1);
-	ft_putstr_fd("\n""Example: ./philo 2 800 200 300", 1);
-	ft_putstr_fd("\n""Example: ./philo 4 400 200 200\n", 1);
+	ft_putstr_fd("\n""Example: ./philo_bonus 2 120 20 20 2", 1);
+	ft_putstr_fd("\n""Example: ./philo_bonus 2 800 200 300", 1);
+	ft_putstr_fd("\n""Example: ./philo_bonus 4 400 200 200\n", 1);
 }
 
 int	error_parser_msg(char *msg)

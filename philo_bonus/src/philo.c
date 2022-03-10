@@ -6,11 +6,12 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:21:50 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 21:09:38 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 15:42:11 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
+#include "philo_bonus.h"
 
 static void	dinner_init(t_philo *dinner)
 {

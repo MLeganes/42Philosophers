@@ -6,20 +6,23 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 19:03:46 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 21:58:19 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/10 17:55:50 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
+#include "philo_bonus.h"
 
 void	*philo_died(t_philosopher *ph)
 {
 	bool	run;
 
-	pthread_mutex_lock(&ph->philo->mutex_running);
+	//pthread_mutex_lock(&ph->philo->mutex_running);
+	sem_wait(ph->philo->sem_running);
 	run = ph->philo->running;
 	ph->philo->running = false;
-	pthread_mutex_unlock(&ph->philo->mutex_running);
+	//pthread_mutex_unlock(&ph->philo->mutex_running);
+	sem_post(ph->philo->sem_running);
 	if (run == true)
 		printf(GRAY"%d %s \033[1;36m%3d  %s\n\033[1;37m",
 			gettimediff((struct timeval *)&ph->philo->start_dinner),
