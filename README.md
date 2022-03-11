@@ -7,11 +7,17 @@ You will see how to create threads and you will discover mutexes.
 * `git clone git@github.com:MLeganes/42Philosophers.git`
 * `cd 42Philosophers`
 
-## Running Philosophers
- 
+## Running
+
 * `make`
 
-* Run program with ``` ./philo arg arg arg arg```
+* Run program with ``` ./philo arg1 arg2 arg3 arg4 arg5```
+	
+		arg1: number_of_philosophers 
+		arg2: time_to_die
+		arg3: time_to_eat
+		arg4: time_to_sleep
+		arg5: number_of_times_each_philosopher_must_eat (optional)
 
 # Links
 
