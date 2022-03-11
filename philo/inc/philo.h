@@ -6,7 +6,7 @@
 /*   By: amorcill <amorcill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 12:05:47 by amorcill          #+#    #+#             */
-/*   Updated: 2022/03/09 22:06:22 by amorcill         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:48:07 by amorcill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_philosopher
 	bool					hasfork;
 	pthread_mutex_t			*mutex_r_fork;
 	const struct timeval	start_eating;
-	int 					ntimes2eat;
+	int						ntimes2eat;
 	struct s_philosopher	*next;
 	struct s_philo			*philo;
 }	t_philosopher;
